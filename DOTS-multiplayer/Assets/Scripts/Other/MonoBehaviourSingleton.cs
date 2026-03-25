@@ -2,7 +2,7 @@
 
 public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-	public static T Instance { get; private set; }
+	public static T Instance;
 
 
     protected virtual void Awake()

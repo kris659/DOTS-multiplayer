@@ -7,9 +7,6 @@ using Unity.NetCode;
 public struct PlayerInput : IInputComponentData
 {
     public float2 Move;
-    public float Break;
-    public float Handbreak;
-    public bool EngineStartStop;
 }
 
 public struct PlayerInputHandle : IComponentData

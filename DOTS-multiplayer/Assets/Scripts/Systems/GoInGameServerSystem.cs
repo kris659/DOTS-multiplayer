@@ -24,9 +24,8 @@ namespace KickBall
             var playerPrefab = SystemAPI.GetSingleton<EntityPrefabs>().Player;
 
             var ecb = new EntityCommandBuffer(Allocator.Temp);
-            foreach (var (requestSource, requestEntity) in
-                     SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>()
-                         .WithAll<GoInGameRequest>()
+            foreach (var (requestSource, requestData, requestEntity) in
+                     SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>, RefRO<GoInGameRequest>>()
                          .WithEntityAccess()) {
                 ecb.AddComponent<NetworkStreamInGame>(requestSource.ValueRO.SourceConnection);
 
@@ -35,13 +34,13 @@ namespace KickBall
 
                     var player = ecb.Instantiate(playerPrefab);
                     ecb.SetComponent(player, new GhostOwner { NetworkId = networkId.Value });
+                    ecb.SetComponent(player, new PlayerData { NetworkId = networkId.Value, Name = requestData.ValueRO.PlayerName });
 
                     ecb.AppendToBuffer(requestSource.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });
                 }
 
                 ecb.DestroyEntity(requestEntity);
             }
-
             ecb.Playback(state.EntityManager);
         }
     }

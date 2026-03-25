@@ -1,8 +1,10 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using Unity.Transforms;
 
+[UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
 public partial struct PlayerMovementSystem : ISystem { 
 
     [BurstCompile]
@@ -19,7 +21,7 @@ public partial struct PlayerMovementSystem : ISystem {
         var playerConfig = SystemAPI.GetSingleton<PlayerConfig>();
 
         foreach (var (transform, input) in
-                    SystemAPI.Query<RefRW<LocalTransform>, RefRO <PlayerInput>>().WithAll<Player>()) {
+                    SystemAPI.Query<RefRW<LocalTransform>, RefRO <PlayerInput>>().WithAll<PlayerTag>()) {
             float3 direction = new(input.ValueRO.Move, 0);
             transform.ValueRW.Position += playerConfig.BaseMovementSpeed * deltaTime * direction;
         }

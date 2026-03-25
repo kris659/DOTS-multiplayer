@@ -7,6 +7,7 @@ namespace KickBall
 {
     public struct GoInGameRequest : IRpcCommand
     {
+        public FixedString32Bytes PlayerName;
     }
 
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ThinClientSimulation)]
@@ -19,7 +20,6 @@ namespace KickBall
             state.RequireForUpdate<NetworkId>();
         }
 
-        [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
             var ecb = new EntityCommandBuffer(Allocator.Temp);
@@ -29,7 +29,7 @@ namespace KickBall
                          .WithEntityAccess()) {
                 ecb.AddComponent<NetworkStreamInGame>(entity);
                 var req = ecb.CreateEntity();
-                ecb.AddComponent<GoInGameRequest>(req);
+                ecb.AddComponent(req, new GoInGameRequest { PlayerName = LobbyUI.PlayerName });
                 ecb.AddComponent(req, new SendRpcCommandRequest { TargetConnection = entity });
             }
             ecb.Playback(state.EntityManager);

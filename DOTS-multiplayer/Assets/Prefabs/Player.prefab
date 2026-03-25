@@ -70,7 +70,7 @@ MonoBehaviour:
   DefaultGhostMode: 1
   SupportedGhostModes: 3
   OptimizationMode: 0
-  Importance: 1
+  Importance: 50
   MaxSendRate: 0
   prefabId: dd81b163d8b99634db785b7c7a94d5a8
 --- !u!114 &207831109179014027
