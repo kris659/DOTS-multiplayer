@@ -12,7 +12,8 @@ public class ConfigAuthoring : MonoBehaviour
             DependsOn(authoring.ConfigSO);
 
             var entity = GetEntity(authoring.gameObject, TransformUsageFlags.None);
-            AddComponent(entity, new EntityPrefabs {
+            AddComponent(entity, new EntityPrefabs
+            {
                 Player = GetEntity(authoring.ConfigSO.PlayerPrefab, TransformUsageFlags.Dynamic)
             });
             AddComponent(entity, authoring.ConfigSO.PlayerConfig);

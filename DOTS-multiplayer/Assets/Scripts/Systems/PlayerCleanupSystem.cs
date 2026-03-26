@@ -7,7 +7,8 @@ public partial struct PlayerCleanupSystem : ISystem
         var ecb = new EntityCommandBuffer(state.WorldUpdateAllocator);
 
         foreach (var (cleanup, entity) in
-                    SystemAPI.Query<RefRO<PlayerCleanupComponent>>().WithNone<PlayerTag>().WithEntityAccess()) {
+                    SystemAPI.Query<RefRO<PlayerCleanupComponent>>().WithNone<PlayerTag>().WithEntityAccess())
+        {
             PlayersData.RemovePlayer(entity);
             ecb.RemoveComponent<PlayerCleanupComponent>(entity);
         }

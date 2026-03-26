@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using Unity.Collections;
 using Unity.Entities;
@@ -47,7 +46,7 @@ public class LobbyUI : UIWindow
 
     private void OnJoinGameButtonPressed()
     {
-        if(!TryGetEndpoint(out NetworkEndpoint networkEndpoint)) 
+        if (!TryGetEndpoint(out NetworkEndpoint networkEndpoint))
             return;
 
         var client = GameBootstrap.CreateClientWorld("ClientWorld");
@@ -61,7 +60,8 @@ public class LobbyUI : UIWindow
     private bool TryGetEndpoint(out NetworkEndpoint networkEndpoint)
     {
         networkEndpoint = default;
-        if (!UInt16.TryParse(_portInputField.text.Trim(), out var port)) {
+        if (!ushort.TryParse(_portInputField.text.Trim(), out var port))
+        {
             return false;
         }
         return NetworkEndpoint.TryParse(_ipAddressInputField.text, port, out networkEndpoint);

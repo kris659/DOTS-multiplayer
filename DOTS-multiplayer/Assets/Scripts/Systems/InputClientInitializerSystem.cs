@@ -6,8 +6,8 @@ using Unity.NetCode;
 [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
 public partial class InputClientInitializerSystem : SystemBase
 {
-    private PlayerInputActions m_GameInput;
-    private GCHandle m_Handle;
+    private PlayerInputActions _playerInputActions;
+    private GCHandle _handle;
 
     protected override void OnCreate()
     {
@@ -16,10 +16,10 @@ public partial class InputClientInitializerSystem : SystemBase
             ComponentType.ReadOnly<GhostOwnerIsLocal>(),
             ComponentType.Exclude<PlayerInputHandle>()));
 
-        m_GameInput = new PlayerInputActions();
-        m_GameInput.Enable();
-        m_GameInput.Player.Enable();
-        m_Handle = GCHandle.Alloc(m_GameInput, GCHandleType.Pinned);
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Enable();
+        _playerInputActions.Player.Enable();
+        _handle = GCHandle.Alloc(_playerInputActions, GCHandleType.Pinned);
     }
 
     protected override void OnUpdate()
@@ -30,16 +30,18 @@ public partial class InputClientInitializerSystem : SystemBase
         foreach (var (input, entity) in SystemAPI
                         .Query<RefRO<PlayerInput>>()
                         .WithEntityAccess()
-                        .WithNone<PlayerInputHandle>()) {
-            cmd.AddComponent(entity, new PlayerInputHandle {
-                Value = GCHandle.ToIntPtr(m_Handle)
+                        .WithNone<PlayerInputHandle>())
+        {
+            cmd.AddComponent(entity, new PlayerInputHandle
+            {
+                Value = GCHandle.ToIntPtr(_handle)
             });
         }
     }
 
     protected override void OnDestroy()
     {
-        if (m_Handle.IsAllocated)
-            m_Handle.Free();
+        if (_handle.IsAllocated)
+            _handle.Free();
     }
 }

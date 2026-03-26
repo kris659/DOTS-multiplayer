@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
@@ -14,8 +13,10 @@ public static class PlayersData
 
     public static PlayerData GetPlayerDataByNetworkId(int networkId)
     {
-        foreach(var data in _playerDataDictionary.Values) {
-            if (data.NetworkId == networkId) {
+        foreach (var data in _playerDataDictionary.Values)
+        {
+            if (data.NetworkId == networkId)
+            {
                 return data;
             }
         }
@@ -24,7 +25,8 @@ public static class PlayersData
 
     public static void AddPlayer(Entity player, PlayerData playerData)
     {
-        if(_playerDataDictionary.ContainsKey(player)) {
+        if (_playerDataDictionary.ContainsKey(player))
+        {
             Debug.LogWarning($"Trying to add player {player} that is already in the dictionary");
             return;
         }

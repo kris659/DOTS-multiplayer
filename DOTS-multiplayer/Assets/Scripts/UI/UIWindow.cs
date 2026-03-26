@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class UIWindow : MonoBehaviour
 {
-    private GameObject _uiWindow; 
+    private GameObject _uiWindow;
 
-    protected virtual void Awake() {
-        if(transform.childCount != 1) {
+    protected virtual void Awake()
+    {
+        if (transform.childCount != 1)
+        {
             Debug.LogError("UIWindow should have only one child");
         }
         _uiWindow = transform.GetChild(0).gameObject;

@@ -17,9 +17,6 @@ public class SceneLoader : MonoBehaviourSingleton<SceneLoader>
         {
             SceneManager.LoadSceneAsync(UI_SCENE_NAME, LoadSceneMode.Additive);
         }
-        //if (!IsSceneLoaded(GAME_SCENE_NAME)) {
-        //    LoadGameScene();
-        //}
 #else
         SceneManager.LoadScene(UI_SCENE_NAME, LoadSceneMode.Additive);
 #endif
@@ -39,7 +36,8 @@ public class SceneLoader : MonoBehaviourSingleton<SceneLoader>
 
     public void LoadGameScene()
     {
-        if (_isGameSceneLoaded) {
+        if (_isGameSceneLoaded)
+        {
             Debug.LogError("Game scene is already loaded.");
             return;
         }

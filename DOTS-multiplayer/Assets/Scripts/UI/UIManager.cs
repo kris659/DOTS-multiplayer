@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class UIManager : MonoBehaviourSingleton<UIManager>
 {
     public ChatUI ChatUI { get; private set; }

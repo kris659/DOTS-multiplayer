@@ -19,10 +19,12 @@ public partial struct PlayersJoinSystem : ISystem
         foreach (var (playerData, ghostOwner, entity) in
                 SystemAPI.Query<RefRW<PlayerData>, RefRO<GhostOwner>>()
                     .WithNone<PlayerJoinedTag>()
-                    .WithEntityAccess()) {
+                    .WithEntityAccess())
+        {
 
             PlayersData.AddPlayer(entity, playerData.ValueRO);
-            if (ghostOwner.ValueRO.NetworkId == localNetworkId.Value) {
+            if (ghostOwner.ValueRO.NetworkId == localNetworkId.Value)
+            {
                 PlayersData.SetLocalPlayer(entity);
             }
 
@@ -30,7 +32,8 @@ public partial struct PlayersJoinSystem : ISystem
             ecb.AddComponent<PlayerCleanupComponent>(entity);
         }
 
-        foreach (var (playerData, entity) in SystemAPI.Query<RefRO<PlayerData>>().WithChangeFilter<PlayerData>().WithEntityAccess()) {
+        foreach (var (playerData, entity) in SystemAPI.Query<RefRO<PlayerData>>().WithChangeFilter<PlayerData>().WithEntityAccess())
+        {
             PlayersData.UpdatePlayerData(entity, playerData.ValueRO);
         }
 
