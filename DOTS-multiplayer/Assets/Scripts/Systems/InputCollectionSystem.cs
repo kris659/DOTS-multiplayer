@@ -21,20 +21,15 @@ public partial struct InputCollectionSystem : ISystem
         if (InputBridge.Input == null)
             return;
 
-        foreach (var (input, owner, playerInput) in Query<RefRW<PlayerInput>, RefRO<GhostOwner>, RefRO<PlayerInputHandle>>())
+        foreach (var (input, owner) in Query<RefRW<PlayerInput>, RefRO<GhostOwner>>())
         {
             if (owner.ValueRO.NetworkId != networkId)
             {
                 continue;
             }
 
-            input.ValueRW.Move = default;
-
-            var inputData = playerInput.ValueRO.GetInput();
-
-            input.ValueRW.Move = inputData.Move.ReadValue<Vector2>();
-            playerInput.ValueRO.Free();
-
+            float2 move = InputBridge.Input.Player.Move.ReadValue<Vector2>();
+            input.ValueRW.Move = move;
         }
     }
 }
