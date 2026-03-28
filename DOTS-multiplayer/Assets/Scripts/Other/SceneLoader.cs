@@ -11,6 +11,7 @@ public class SceneLoader : MonoBehaviourSingleton<SceneLoader>
     protected override void Awake()
     {
         base.Awake();
+        Application.targetFrameRate = 60;
 
 #if UNITY_EDITOR
         if (!IsSceneLoaded(UI_SCENE_NAME))
